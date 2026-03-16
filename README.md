@@ -30,10 +30,13 @@ Demo credentials (shared demo environment; **not** created automatically for sel
 
 Sub2API is an AI API gateway platform designed to distribute and manage API quotas from AI product subscriptions (like Claude Code $200/month). Users can access upstream AI services through platform-generated API Keys, while the platform handles authentication, billing, load balancing, and request forwarding.
 
+Sub2API provides OpenAI-compatible gateway capabilities as a unified part of the platform, including `/v1/responses`, `/v1/chat/completions`, and `/v1/embeddings`. These endpoints share the same API key system, subscription and quota checks, account scheduling, usage logging, and billing pipeline instead of relying on a separate sidecar service.
+
 ## Features
 
 - **Multi-Account Management** - Support multiple upstream account types (OAuth, API Key)
 - **API Key Distribution** - Generate and manage API Keys for users
+- **Unified OpenAI v1 Compatibility** - Built-in support for Responses, Chat Completions, and Embeddings under the same gateway and billing model
 - **Precise Billing** - Token-level usage tracking and cost calculation
 - **Smart Scheduling** - Intelligent account selection with sticky sessions
 - **Concurrency Control** - Per-user and per-account concurrency limits
