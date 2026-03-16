@@ -1,6 +1,9 @@
-FROM golang:1.25.7-alpine
+FROM golang:1.26.1-alpine
 
 WORKDIR /app
+
+ENV GOPROXY=https://goproxy.cn,direct
+ENV GOSUMDB=sum.golang.google.cn
 
 # 安装必要的工具
 RUN apk add --no-cache git

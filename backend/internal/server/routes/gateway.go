@@ -71,6 +71,9 @@ func RegisterGatewayRoutes(
 		gateway.POST("/responses", h.OpenAIGateway.Responses)
 		gateway.POST("/responses/*subpath", h.OpenAIGateway.Responses)
 		gateway.GET("/responses", h.OpenAIGateway.ResponsesWebSocket)
+		// OpenAI Embeddings API
+		gateway.POST("/embeddings", h.OpenAIGateway.Embeddings)
+		gateway.POST("/embeddings/", h.OpenAIGateway.Embeddings)
 		// OpenAI Chat Completions API
 		gateway.POST("/chat/completions", h.OpenAIGateway.ChatCompletions)
 	}
@@ -93,6 +96,7 @@ func RegisterGatewayRoutes(
 	r.POST("/responses", bodyLimit, clientRequestID, opsErrorLogger, gin.HandlerFunc(apiKeyAuth), requireGroupAnthropic, h.OpenAIGateway.Responses)
 	r.POST("/responses/*subpath", bodyLimit, clientRequestID, opsErrorLogger, gin.HandlerFunc(apiKeyAuth), requireGroupAnthropic, h.OpenAIGateway.Responses)
 	r.GET("/responses", bodyLimit, clientRequestID, opsErrorLogger, gin.HandlerFunc(apiKeyAuth), requireGroupAnthropic, h.OpenAIGateway.ResponsesWebSocket)
+	r.POST("/embeddings", bodyLimit, clientRequestID, opsErrorLogger, gin.HandlerFunc(apiKeyAuth), requireGroupAnthropic, h.OpenAIGateway.Embeddings)
 	// OpenAI Chat Completions API（不带v1前缀的别名）
 	r.POST("/chat/completions", bodyLimit, clientRequestID, opsErrorLogger, gin.HandlerFunc(apiKeyAuth), requireGroupAnthropic, h.OpenAIGateway.ChatCompletions)
 

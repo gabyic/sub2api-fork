@@ -49,3 +49,16 @@ func TestGatewayRoutesOpenAIResponsesCompactPathIsRegistered(t *testing.T) {
 		require.NotEqual(t, http.StatusNotFound, w.Code, "path=%s should hit OpenAI responses handler", path)
 	}
 }
+
+func TestGatewayRoutesOpenAIEmbeddingsPathIsRegistered(t *testing.T) {
+	router := newGatewayRoutesTestRouter()
+
+	for _, path := range []string{"/v1/embeddings", "/embeddings"} {
+		req := httptest.NewRequest(http.MethodPost, path, strings.NewReader(`{"model":"text-embedding-3-small","input":"hello"}`))
+		req.Header.Set("Content-Type", "application/json")
+		w := httptest.NewRecorder()
+
+		router.ServeHTTP(w, req)
+		require.NotEqual(t, http.StatusNotFound, w.Code, "path=%s should hit OpenAI embeddings handler", path)
+	}
+}

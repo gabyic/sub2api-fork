@@ -41,7 +41,9 @@ const (
 	openAIInboundEndpointResponses       = "/v1/responses"
 	openAIInboundEndpointMessages        = "/v1/messages"
 	openAIInboundEndpointChatCompletions = "/v1/chat/completions"
+	openAIInboundEndpointEmbeddings      = "/v1/embeddings"
 	openAIUpstreamEndpointResponses      = "/v1/responses"
+	openAIUpstreamEndpointEmbeddings     = "/v1/embeddings"
 )
 
 // NewOpenAIGatewayHandler creates a new OpenAIGatewayHandler
@@ -1558,6 +1560,8 @@ func normalizedOpenAIInboundEndpoint(c *gin.Context, fallback string) string {
 	switch {
 	case strings.Contains(path, openAIInboundEndpointChatCompletions):
 		return openAIInboundEndpointChatCompletions
+	case strings.Contains(path, openAIInboundEndpointEmbeddings):
+		return openAIInboundEndpointEmbeddings
 	case strings.Contains(path, openAIInboundEndpointMessages):
 		return openAIInboundEndpointMessages
 	case strings.Contains(path, openAIInboundEndpointResponses):

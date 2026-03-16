@@ -3585,11 +3585,37 @@ func extractOpenAIUsageFromJSONBytes(body []byte) (OpenAIUsage, bool) {
 		"usage.input_tokens",
 		"usage.output_tokens",
 		"usage.input_tokens_details.cached_tokens",
+		"usage.prompt_tokens",
+		"usage.completion_tokens",
+		"usage.total_tokens",
 	)
+	inputTokens := int(values[0].Int())
+	outputTokens := int(values[1].Int())
+	cacheReadTokens := int(values[2].Int())
+
+	// Embeddings-compatible fallback: OpenAI embeddings responses usually return
+	// prompt_tokens/total_tokens instead of input_tokens/output_tokens.
+	if inputTokens == 0 {
+		inputTokens = int(values[3].Int())
+	}
+	if outputTokens == 0 {
+		outputTokens = int(values[4].Int())
+		if outputTokens == 0 {
+			totalTokens := int(values[5].Int())
+			if totalTokens > inputTokens {
+				outputTokens = totalTokens - inputTokens
+			}
+		}
+	}
+
+	if inputTokens == 0 && outputTokens == 0 && cacheReadTokens == 0 {
+		return OpenAIUsage{}, false
+	}
+
 	return OpenAIUsage{
-		InputTokens:          int(values[0].Int()),
-		OutputTokens:         int(values[1].Int()),
-		CacheReadInputTokens: int(values[2].Int()),
+		InputTokens:          inputTokens,
+		OutputTokens:         outputTokens,
+		CacheReadInputTokens: cacheReadTokens,
 	}, true
 }
 
